@@ -1,0 +1,100 @@
+{
+	"lang": "tr",
+	"dir": "ltr",
+	"lang": "tr",
+	"name": "Multi TV",
+	"short_name": "Multi TV",
+	"description": "Aynı anda birden fazla haber kanalını, televizyonu ya da YouTube kanalını izleyebileceğiniz bir çoklu ekran uygulaması.",
+    "icons": [
+		{
+			"src": "https://lab.mertskaplan.com/multitv/assets/img/logo/multitv-72.png",
+			"type": "image/png",
+			"sizes": "72x72"
+		},
+		{
+			"src": "https://lab.mertskaplan.com/multitv/assets/img/logo/multitv-96.png",
+			"type": "image/png",
+			"sizes": "96x96"
+		},
+		{
+			"src": "https://lab.mertskaplan.com/multitv/assets/img/logo/multitv-128.png",
+			"type": "image/png",
+			"sizes": "128x128"
+		},
+		{
+			"src": "https://lab.mertskaplan.com/multitv/assets/img/logo/multitv-144.png",
+			"type": "image/png",
+			"sizes": "144x144"
+		},
+		{
+			"src": "https://lab.mertskaplan.com/multitv/assets/img/logo/multitv-152.png",
+			"type": "image/png",
+			"sizes": "152x152"
+		},
+		{
+			"src": "https://lab.mertskaplan.com/multitv/assets/img/logo/multitv-192.png",
+			"type": "image/png",
+			"sizes": "192x192",
+			"purpose": "any"
+		},
+		{
+			"src": "https://lab.mertskaplan.com/multitv/assets/img/logo/multitv-maskable-192.png",
+			"type": "image/png",
+			"sizes": "192x192",
+			"purpose": "maskable"
+		},
+		{
+			"src": "https://lab.mertskaplan.com/multitv/assets/img/logo/multitv-512.png",
+			"type": "image/png",
+			"sizes": "512x512"
+		},
+		{
+			"src": "https://lab.mertskaplan.com/multitv/assets/img/logo/multitv-maskable-512.png",
+			"type": "image/png",
+			"sizes": "512x512",
+			"purpose": "maskable"
+		}
+    ],
+	"scope": "https://lab.mertskaplan.com/multitv/",
+	"start_url": "https://lab.mertskaplan.com/multitv/",
+	"display": "fullscreen",
+	"display_override": [
+		"standalone",
+		"window-control-overlay",
+		"browser"
+	],
+	"orientation": "landscape",
+	"background_color": "#212529",
+	"theme_color": "#212529",
+	"prefer_related_applications": false,
+    "categories": [
+        "news"
+    ],    
+	"screenshots": [
+		{
+			"src": "https://lab.mertskaplan.com/multitv/assets/img/screenshots/screenshot-1280.jpg",
+			"sizes": "1280x720",
+			"type": "image/png"
+		}
+	],
+	"shortcuts": [
+		{
+			"name": "9 kanal",
+			"url": "https://lab.mertskaplan.com/multitv/",
+			"icons": [
+				{
+					"src": "https://lab.mertskaplan.com/multitv/assets/img/logo/multitv-72.png"
+				}
+			]
+		},
+		{
+			"name": "16 kanal",
+			"url": "https://lab.mertskaplan.com/multitv/?channel=16",
+			"icons": [
+				{
+					"src": "https://lab.mertskaplan.com/multitv/assets/img/logo/multitv-72.png"
+				}
+			]
+		}
+	]
+}

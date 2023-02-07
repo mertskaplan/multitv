@@ -5,23 +5,24 @@
     } else {  
         $chanels = array(
             "NTV" => "XEJM4Hcgd3M",
-            "CNN Türk" => "X_EWYemclKA",
+//            "CNN Türk" => "X_EWYemclKA", // Diğer uygulamalarda oynatma, video sahibi tarafından devre dışı bırakıldı
             "Habertürk" => "SqHIO2zhxbA",
             "Haber Global" => "fx5_pi-1Zqo",
             "TRT Haber" => "Rc5qrxlJZzc",
-            "TV 100" => "8jEXHzMTR7s",
-            "Halk TV" => "uMMM9bYxwXc",
-            "A Haber" => "g4QA9Sh_g_8",
+//          "A Haber" => "g4QA9Sh_g_8", // telif hakki sebebiyle kaldirildi
+            "TV 100" => "sd94keSra6A",
+            "Halk TV" => "L0aI7O5KrVU",
             "24 TV" => "TPbdeNMaAZY",
             "TGRT Haber" => "8YPC2IV7ve0",
             "KRT TV" => "3QDiWPZ2D_k",
-            "TELE 1" => "rZJz0KK6T_o",
+            "TELE 1" => "mRK3wXGdsLk",
             "Bengü Türk" => "7su_1By-cBk",
             "Bloomberg HT" => "hHSmBJk6w0c",
-            "Ulusal Kanal" => "iXrCkshL90g",
+            "Ulusal Kanal" => "SdCJquYL-CQ",
             "Artı TV" => "xpoetRCJKqY",
-            "TVNET" => "dkRT6x7EfmY",
-            "Ülke TV" => "Fk8MmJCLJvw",
+            "TVNET" => "SR396EBvGUk",
+            "Ülke TV" => "1-Ng6S1dhNI",
+            "Flash Haber TV" => "zjhWKpr2YnY",
         );
     }
 
@@ -37,16 +38,31 @@
     $autoplay = (!isset($_GET['autoplay']) || $_GET['autoplay'] == 'on') ? 1 : 0;
 ?>
 <!doctype html>
-<html lang="tr">
+<html lang="tr" prefix="og: https://ogp.me/ns#">
 <head>
     <meta charset="utf-8">
     <meta name="description" content="Aynı anda birden fazla haber kanalını, televizyonu ya da YouTube kanalını izleyebileceğiniz bir çoklu ekran uygulaması.">
     <meta name="keywords" content="Multi TV, multi screen, çoklu ekran, çoklu haber kanalı, haber kanalları, YouTube, aynı anda">
     <meta name="author" content="Mert S. Kaplan, mail@mertskaplan.com">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Multi TV</title>
+    <meta name="theme-color" content="#212529">
+    <meta property="og:title" content="Multi TV - Haber kanallarını aynı anda izle" />
+    <meta property="og:description" content="Aynı anda birden fazla haber kanalını, televizyonu ya da YouTube kanalını izleyebileceğiniz bir çoklu ekran uygulaması." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://lab.mertskaplan.com/multitv/" />
+    <meta property="og:image" content="https://lab.mertskaplan.com/multitv/assets/img/screenshots/screenshot-1280.jpg" />
+    <meta property="og:locale" content="tr_TR" />
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@mertskaplan">
+    <meta name="twitter:title" content="Multi TV - Haber kanallarını aynı anda izle">
+    <meta name="twitter:description" content="Aynı anda birden fazla haber kanalını, televizyonu ya da YouTube kanalını izleyebileceğiniz bir çoklu ekran uygulaması.">
+    <meta name="twitter:image" content="https://lab.mertskaplan.com/multitv/assets/img/screenshots/screenshot-1280.jpg">
+    <title>Multi TV - Haber kanallarını aynı anda izle</title>
+    <link rel="canonical" href="https://lab.mertskaplan.com/multitv/">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="apple-touch-icon" href="assets/img/logo/multitv-192.png">
     <style>
         .msk-container {
             aspect-ratio: 16/9;
@@ -200,6 +216,8 @@
             }
         }
         setInterval(function(){ check_fullscreen();}, 1000);
+
+        if ('serviceWorker' in navigator) {navigator.serviceWorker.register('assets/js/sw.js').then(function() {}, function() {});}
     </script>
 </body>
 </html>
