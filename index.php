@@ -7,7 +7,7 @@
             "NTV" => "XEJM4Hcgd3M",
             "CNN Türk" => "X_EWYemclKA",
             "Habertürk" => "SqHIO2zhxbA",
-            "Haber Global" => "N3M-NHuT2Mw",
+            "Haber Global" => "fx5_pi-1Zqo",
             "TRT Haber" => "Rc5qrxlJZzc",
             "TV 100" => "8jEXHzMTR7s",
             "Halk TV" => "uMMM9bYxwXc",
