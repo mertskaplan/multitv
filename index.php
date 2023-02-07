@@ -146,7 +146,7 @@
                 <div class="form-check form-switch">
                     <? echo ($autoplay == 1) ? '<input type="hidden" value="off" name="autoplay">' : ''; ?>
                     <input class="form-check-input" type="checkbox" role="switch" id="autoplay" name="autoplay"<? echo ($autoplay == 1) ? ' checked="checked"' : ''; ?>>
-                    <label class="form-check-label" for="autoplay">Otomatik onatma</label>
+                    <label class="form-check-label" for="autoplay">Otomatik oynatma</label>
                 </div>
 
                 <h5 class="mt-4">Kanalları değiştir</h5>
