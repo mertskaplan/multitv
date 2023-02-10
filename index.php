@@ -60,7 +60,11 @@
 
     function changeChannel($x) {
         global $channel;
-        return str_replace("channel=$channel", "channel=$x", $_SERVER["QUERY_STRING"]);
+        if (!empty($_SERVER["QUERY_STRING"])) {
+            return str_replace("channel=$channel", "channel=$x", $_SERVER["QUERY_STRING"]);
+        } else {
+            return "channel=$x";
+        }
     }
 ?>
 <!doctype html>
@@ -123,14 +127,6 @@
             opacity: .75;
         }
     </style>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-3083486-20"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-3083486-20');
-    </script>
 </head>
 <body class="text-bg-dark">
     <div class="msk-container">
@@ -175,7 +171,7 @@
             </div>
 
             <form methot="get" action="">
-                <h5 class="mt-4">Başlangıç ayarları</h5>
+                <h5 class="mt-4">Başlangıç ayarı</h5>
                 <div class="form-check form-switch">
                     <? echo ($autoplay == 1) ? '<input type="hidden" value="off" name="autoplay">' : ''; ?>
                     <input class="form-check-input" type="checkbox" role="switch" id="autoplay" name="autoplay"<? echo ($autoplay == 1) ? ' checked="checked"' : ''; ?>>
