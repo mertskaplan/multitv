@@ -1,41 +1,67 @@
 <?php
+/*
+    Name: Multi TV
+    Version: 1.5
+    Author: Mert S. Kaplan, mail@mertskaplan.com
+    Licence: MIT Licence - https://github.com/mertskaplan/multitv/blob/main/LICENSE
+    Source: https://github.com/mertskaplan/multitv
+*/
+
+    $root = 'https://lab.mertskaplan.com/multitv/';
 
     if (isset($_GET['cn']) && isset($_GET['cs'])) {
         $chanels = array_combine($_GET['cn'], $_GET['cs']);
     } else {  
         $chanels = array(
             "NTV" => "XEJM4Hcgd3M",
-//            "CNN Türk" => "X_EWYemclKA", // Diğer uygulamalarda oynatma, video sahibi tarafından devre dışı bırakıldı
+//          "CNN Türk" => "X_EWYemclKA", // Diğer uygulamalarda oynatma, video sahibi tarafından devre dışı bırakıldı
             "Habertürk" => "SqHIO2zhxbA",
-            "Haber Global" => "fx5_pi-1Zqo",
+            "Haber Global" => "UVPejgEw21c",
             "TRT Haber" => "Rc5qrxlJZzc",
 //          "A Haber" => "g4QA9Sh_g_8", // telif hakki sebebiyle kaldirildi
             "TV 100" => "sd94keSra6A",
             "Halk TV" => "L0aI7O5KrVU",
-            "24 TV" => "TPbdeNMaAZY",
+            "24 TV" => "V5mBTSql74Q",
             "TGRT Haber" => "8YPC2IV7ve0",
             "KRT TV" => "3QDiWPZ2D_k",
             "TELE 1" => "mRK3wXGdsLk",
-            "Bengü Türk" => "7su_1By-cBk",
             "Bloomberg HT" => "hHSmBJk6w0c",
             "Ulusal Kanal" => "SdCJquYL-CQ",
             "Artı TV" => "xpoetRCJKqY",
             "TVNET" => "SR396EBvGUk",
-            "Ülke TV" => "1-Ng6S1dhNI",
-            "Flash Haber TV" => "zjhWKpr2YnY",
+            "Ülke TV" => "dAknS8uSPW8",
+            "Flash Haber TV" => "oGHfM6AC7QU",
+            "Bengü Türk" => "Lx_fVB6FQ5Y",
+            "Kanal D" => "ubWBmjt4x7U",
+            "Show TV" => "eVVlKAUlSNQ",
+            "Fox TV" => "6W1ePcaAUFY",
+            "360 TV" => "bOlsH34--PU",
+            "TV5" => "-zNkYBJ0wKI",
+            "Ekotürk TV" => "zJYTpkv7aAQ",
+            "Cadde TV" => "BSM8MIH7yAE",
+            "beIN Sports Haber" => "MZ5D6NK5Qqo"
         );
     }
 
-    if (isset($_GET['channel']) && $_GET['channel'] == "16") {
-        $channel = 16;
-        $iframeDivClass = 'col-lg-3 col-md-4 col-sm-6 col-xs-12 text-center p-0';
+    $channel = (isset($_GET['channel'])) ? (int)$_GET['channel'] : 9;
+
+    if ($channel == 4) {
+        $rowClass = 'row row-cols-1 row-cols-sm-2 justify-content-center align-items-center m-0';
+    } elseif ($channel == 9) {
+        $rowClass = 'row row-cols-1 row-cols-sm-2 row-cols-md-3 justify-content-center align-items-center m-0';
+    } elseif ($channel == 16) {
+        $rowClass = 'row row-cols-1 row-cols-sm-2 row-cols-xl-4 justify-content-center align-items-center m-0';
     } else {
-        $channel = 9;
-        $iframeDivClass = 'col-md-4 col-sm-6 col-xs-12 text-center p-0';
+        $rowClass = 'row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5 justify-content-center align-items-center m-0';
     }
 
     $chanels = array_slice($chanels, 0, $channel);
     $autoplay = (!isset($_GET['autoplay']) || $_GET['autoplay'] == 'on') ? 1 : 0;
+
+    function changeChannel($x) {
+        global $channel;
+        return str_replace("channel=$channel", "channel=$x", $_SERVER["QUERY_STRING"]);
+    }
 ?>
 <!doctype html>
 <html lang="tr" prefix="og: https://ogp.me/ns#">
@@ -49,29 +75,26 @@
     <meta property="og:title" content="Multi TV - Haber kanallarını aynı anda izle" />
     <meta property="og:description" content="Aynı anda birden fazla haber kanalını, televizyonu ya da YouTube kanalını izleyebileceğiniz bir çoklu ekran uygulaması." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://lab.mertskaplan.com/multitv/" />
-    <meta property="og:image" content="https://lab.mertskaplan.com/multitv/assets/img/screenshots/screenshot-1280.jpg" />
+    <meta property="og:url" content="<? echo $root; ?>" />
+    <meta property="og:image" content="<? echo $root; ?>assets/img/screenshots/screenshot-1280.jpg" />
     <meta property="og:locale" content="tr_TR" />
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:creator" content="@mertskaplan">
     <meta name="twitter:title" content="Multi TV - Haber kanallarını aynı anda izle">
     <meta name="twitter:description" content="Aynı anda birden fazla haber kanalını, televizyonu ya da YouTube kanalını izleyebileceğiniz bir çoklu ekran uygulaması.">
-    <meta name="twitter:image" content="https://lab.mertskaplan.com/multitv/assets/img/screenshots/screenshot-1280.jpg">
+    <meta name="twitter:image" content="<? echo $root; ?>assets/img/screenshots/screenshot-1280.jpg">
     <title>Multi TV - Haber kanallarını aynı anda izle</title>
-    <link rel="canonical" href="https://lab.mertskaplan.com/multitv/">
+    <link rel="canonical" href="<? echo $root; ?>">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="manifest" href="manifest.webmanifest">
-    <link rel="apple-touch-icon" href="assets/img/logo/multitv-192.png">
+    <link rel="manifest" href="<? echo $root; ?>manifest.webmanifest">
+    <link rel="apple-touch-icon" href="<? echo $root; ?>assets/img/logo/multitv-192.png">
     <style>
         .msk-container {
             aspect-ratio: 16/9;
             max-height: 100vh;
             max-width: 100vw;
             margin: 0 auto;
-        }
-        .row div {
-            max-height: 33.333vh;
         }
         .row div, iframe {
             aspect-ratio: 16/9;
@@ -100,14 +123,22 @@
             opacity: .75;
         }
     </style>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-3083486-20"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-3083486-20');
+    </script>
 </head>
 <body class="text-bg-dark">
     <div class="msk-container">
-        <div class="row justify-content-around align-items-center m-0">
+        <div class="<? echo $rowClass; ?>">
 <?php
     foreach ($chanels as $chanel => $slug) {
         echo '
-            <div class="'. $iframeDivClass .'">
+            <div class="col text-center p-0">
                 <iframe class="d-grid" width="100%" height="100%" src="https://www.youtube-nocookie.com/embed/'. $slug .'?autoplay='. $autoplay .'&mute=1" title="'. $chanel .'" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
         ';
@@ -137,12 +168,14 @@
         <div class="offcanvas-body">
             <h5>Kanal sayısı</h5>
             <div class="btn-group w-100" role="group" aria-label="Ayarlar">
-                <a type="button" class="btn btn-outline-light rounded-0<? echo ($channel == 9) ? ' active' : ''; ?>" href=".">9 kanal</a>
-                <a type="button" class="btn btn-outline-light rounded-0<? echo ($channel == 16) ? ' active' : ''; ?>" href="?channel=16">16 kanal</a>
+                <a type="button" class="btn btn-outline-light rounded-0<? echo ($channel == 4)  ? ' active' : ''; ?>" href="?<? echo changeChannel(4); ?>">4 kanal</a>
+                <a type="button" class="btn btn-outline-light rounded-0<? echo ($channel == 9)  ? ' active' : ''; ?>" href="?<? echo changeChannel(9); ?>">9 kanal</a>
+                <a type="button" class="btn btn-outline-light rounded-0<? echo ($channel == 16) ? ' active' : ''; ?>" href="?<? echo changeChannel(16); ?>">16 kanal</a>
+                <a type="button" class="btn btn-outline-light rounded-0<? echo ($channel == 25) ? ' active' : ''; ?>" href="?<? echo changeChannel(25); ?>">25 kanal</a>
             </div>
 
             <form methot="get" action="">
-                <h5 class="mt-4">Başlangıç seçenekleri</h5>
+                <h5 class="mt-4">Başlangıç ayarları</h5>
                 <div class="form-check form-switch">
                     <? echo ($autoplay == 1) ? '<input type="hidden" value="off" name="autoplay">' : ''; ?>
                     <input class="form-check-input" type="checkbox" role="switch" id="autoplay" name="autoplay"<? echo ($autoplay == 1) ? ' checked="checked"' : ''; ?>>
