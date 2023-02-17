@@ -45,11 +45,11 @@
 
     $channel = (isset($_GET['channel'])) ? (int)$_GET['channel'] : 9;
 
-    if ($channel == 4) {
+    if ($channel <= 4) {
         $rowClass = 'row row-cols-1 row-cols-sm-2 justify-content-center align-items-center m-0';
-    } elseif ($channel == 9) {
+    } elseif ($channel <= 9) {
         $rowClass = 'row row-cols-1 row-cols-sm-2 row-cols-md-3 justify-content-center align-items-center m-0';
-    } elseif ($channel == 16) {
+    } elseif ($channel <= 16) {
         $rowClass = 'row row-cols-1 row-cols-sm-2 row-cols-xl-4 justify-content-center align-items-center m-0';
     } else {
         $rowClass = 'row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5 justify-content-center align-items-center m-0';
