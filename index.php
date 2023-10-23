@@ -20,7 +20,7 @@
             "TRT Haber" => "Rc5qrxlJZzc",
 //          "A Haber" => "g4QA9Sh_g_8", // telif hakki sebebiyle kaldirildi
             "TV 100" => "sd94keSra6A",
-            "Halk TV" => "L0aI7O5KrVU",
+            "Halk TV" => "_FUlFVJo77I",
             "24 TV" => "V5mBTSql74Q",
             "TGRT Haber" => "8YPC2IV7ve0",
             "KRT TV" => "3QDiWPZ2D_k",
