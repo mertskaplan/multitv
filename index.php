@@ -6,41 +6,49 @@
     Licence: MIT Licence - https://github.com/mertskaplan/multitv/blob/main/LICENSE
     Source: https://github.com/mertskaplan/multitv
 */
+    include('get.php'); // Canlı yayın linki almak için get.php dosyasını kullanıyoruz. getVideoId() fonksiyonu ile YouTube kanalının canlı yayın linkini alıyoruz.
 
     $root = 'https://lab.mertskaplan.com/multitv/';
 
     if (isset($_GET['cn']) && isset($_GET['cs'])) {
         $chanels = array_combine($_GET['cn'], $_GET['cs']);
-    } else {  
+    } else {
         $chanels = array(
-            "NTV" => "XEJM4Hcgd3M",
-//          "CNN Türk" => "X_EWYemclKA", // Diğer uygulamalarda oynatma, video sahibi tarafından devre dışı bırakıldı
-            "Habertürk" => "SqHIO2zhxbA",
-            "Haber Global" => "UVPejgEw21c",
-            "TRT Haber" => "Rc5qrxlJZzc",
-//          "A Haber" => "g4QA9Sh_g_8", // telif hakki sebebiyle kaldirildi
-            "TV 100" => "sd94keSra6A",
-            "Halk TV" => "_FUlFVJo77I",
-            "24 TV" => "V5mBTSql74Q",
-            "TGRT Haber" => "8YPC2IV7ve0",
-            "KRT TV" => "3QDiWPZ2D_k",
-            "TELE 1" => "mRK3wXGdsLk",
-            "Bloomberg HT" => "hHSmBJk6w0c",
-            "Ulusal Kanal" => "SdCJquYL-CQ",
-            "Artı TV" => "xpoetRCJKqY",
-            "TVNET" => "SR396EBvGUk",
-            "Ülke TV" => "dAknS8uSPW8",
-            "Flash Haber TV" => "oGHfM6AC7QU",
-            "Bengü Türk" => "Lx_fVB6FQ5Y",
-            "Kanal D" => "ubWBmjt4x7U",
-            "Show TV" => "eVVlKAUlSNQ",
-            "Fox TV" => "6W1ePcaAUFY",
-            "360 TV" => "bOlsH34--PU",
-            "TV5" => "-zNkYBJ0wKI",
-            "Ekotürk TV" => "zJYTpkv7aAQ",
-            "Cadde TV" => "BSM8MIH7yAE",
-            "beIN Sports Haber" => "MZ5D6NK5Qqo"
+            "NTV" => json_decode(getVideoId(["channelId" => "UC9TDTjbOjFB9jADmPhSAPsw", "username" => "NTV"]))->data->videoId,
+            //"CNN Türk" => json_decode(getVideoId(["channelId" => "UCV6zcRug6Hqp1UX_FdyUeBg", "username" => "cnnturk"]))->data->videoId, // Diğer uygulamalarda oynatma, video sahibi tarafından devre dışı bırakıldı
+            //"Habertürk" => json_decode(getVideoId(["channelId" => "UCn6dNfiRE_Xunu7iMyvD7AA", "username" => "haberturktv"]))->data->videoId, // Diğer uygulamalarda oynatma, video sahibi tarafından devre dışı bırakıldı
+            "Haber Global" => json_decode(getVideoId(["channelId" => "UCtc-a9ZUIg0_5HpsPxEO7Qg", "username" => "haberglobal"]))->data->videoId,
+            "TRT Haber" => json_decode(getVideoId(["channelId" => "UCBgTP2LOFVPmq15W-RH-WXA", "username" => "trthaber"]))->data->videoId,
+            //"A Haber" => json_decode(getVideoId(["channelId" => "UCKQhfw-lzz0uKnE1fY1PsAA", "username" => "ahaber"]))->data->videoId, // telif hakkı sebebiyle kaldırıldı
+            //"A Spor" => json_decode(getVideoId(["channelId" => "UCJElRTCNEmLemgirqvsW63Q", "username" => "ASpor"]))->data->videoId, // telif hakkı sebebiyle kaldırıldı
+            "TV 100" => json_decode(getVideoId(["channelId" => "UCndsdUW_oPLqpQJY9J8oIRg", "username" => "tv100"]))->data->videoId,
+            "Halk TV" => json_decode(getVideoId(["channelId" => "UCf_ResXZzE-o18zACUEmyvQ", "username" => "Halktvkanali"]))->data->videoId,
+            "24 TV" => json_decode(getVideoId(["channelId" => "UCN7VYCsI4Lx1-J4_BtjoWUA", "username" => "YirmidortTV"]))->data->videoId,
+            "TGRT Haber" => json_decode(getVideoId(["channelId" => "UCzgrZ-CndOoylh2_e72nSBQ", "username" => "tgrthaber"]))->data->videoId,
+            "KRT TV" => json_decode(getVideoId(["channelId" => "UCVKWwHoLwUMMa80cu_1uapA", "username" => "KRTCANLI"]))->data->videoId,
+            "Bi Haber" => json_decode(getVideoId(["channelId" => "UCT1QJrOPtGWYyWkXry8uT4w", "username" => "bihabercanli"]))->data->videoId,
+            "TELE 1" => json_decode(getVideoId(["channelId" => "UCoHnRpOS5rL62jTmSDO5Npw", "username" => "Tele1comtr"]))->data->videoId,
+            //"Bloomberg HT" => json_decode(getVideoId(["channelId" => "UCApLxl6oYQafxvykuoC2uxQ", "username" => "bloomberght"]))->data->videoId, // Diğer uygulamalarda oynatma, video sahibi tarafından devre dışı bırakıldı
+            "Ulusal Kanal" => json_decode(getVideoId(["channelId" => "UC6T0L26KS1NHMPbTwI1L4Eg", "username" => "ulusalkanalTV"]))->data->videoId,
+            "Artı TV" => json_decode(getVideoId(["channelId" => "UCxVicskgBc8OD66iLKc7Uaw", "username" => "ArtTv_Resmi"]))->data->videoId,
+            "TVNET" => json_decode(getVideoId(["channelId" => "UC8rh34IlJTN0lDZlTwzWzjg", "username" => "TVNET"]))->data->videoId,
+            //"Ülke TV" => json_decode(getVideoId(["channelId" => "UCi65FGbYYj-OzJm2luB_fNQ", "username" => "ulketv"]))->data->videoId, // Kanal taşınmış
+            //"Ülke TV Canlı Yayın" => json_decode(getVideoId(["channelId" => "UCT1GDGt-pNYZ4E0kanZHUKQ", "username" => "UlkeTVCanliYayin"]))->data->videoId, // Diğer uygulamalarda oynatma, video sahibi tarafından devre dışı bırakıldı
+            "Flash Haber TV" => json_decode(getVideoId(["channelId" => "UCNcjCb2RnA3eMMhTZSxZu3A", "username" => "FlashHaberTV"]))->data->videoId,
+            "Bengü Türk" => json_decode(getVideoId(["channelId" => "UChNgvcVZ_ggDdZ0zCcuuzFw", "username" => "tvbenguturk"]))->data->videoId,
+            //"Kanal D" => json_decode(getVideoId(["channelId" => "UCFoe1tg8MuHjRzmqXtV816A", "username" => "kanald"]))->data->videoId, // Canlı yayın yok!
+            //"Show TV" => json_decode(getVideoId(["channelId" => "UC9JMe_We017gYrRc7kZHgmg", "username" => "showtv"]))->data->videoId, // Diğer uygulamalarda oynatma, video sahibi tarafından devre dışı bırakıldı
+            "Fox TV" => json_decode(getVideoId(["channelId" => "UCJe13zu6MyE6Oueac41KAqg", "username" => "FOXTurkiye"]))->data->videoId,
+            "360 TV" => json_decode(getVideoId(["channelId" => "UCfqRQZ40fwEdaDWPuR7tvcw", "username" => "tv360"]))->data->videoId,
+            "TV5" => json_decode(getVideoId(["channelId" => "UCP-0oW3M7DpjmPDutckOjiA", "username" => "TV5televizyon"]))->data->videoId,
+            "Ekotürk TV" => json_decode(getVideoId(["channelId" => "UCAGVKxpAKwXMWdmcHbrvcwQ", "username" => "EKOTURKTV"]))->data->videoId,
+            //"Cadde TV" => json_decode(getVideoId(["channelId" => "UCPTF3NxWzcBD8rNnJuGQOSA", "username" => "Caddetvtr"]))->data->videoId, // Uzun süredir canlı yayın yok!
+            "beIN Sports Haber" => json_decode(getVideoId(["channelId" => "UCPe9vNjHF1kEExT5kHwc7aw", "username" => "beinsportsturkiye"]))->data->videoId,
+            "SZC TV" => json_decode(getVideoId(["channelId" => "UCOulx_rep5O4i9y6AyDqVvw", "username" => "Sozcutelevizyonu"]))->data->videoId,
         );
+
+        // Null değerleri temizle
+        $chanels = array_filter($chanels);
     }
 
     $channel = (isset($_GET['channel'])) ? (int)$_GET['channel'] : 9;
@@ -131,15 +139,13 @@
 <body class="text-bg-dark">
     <div class="msk-container">
         <div class="<? echo $rowClass; ?>">
-<?php
-    foreach ($chanels as $chanel => $slug) {
+<?php foreach ($chanels as $chanel => $slug) {
         echo '
             <div class="col text-center p-0">
                 <iframe class="d-grid" width="100%" height="100%" src="https://www.youtube-nocookie.com/embed/'. $slug .'?autoplay='. $autoplay .'&mute=1" title="'. $chanel .'" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
         ';
-    }
-?>
+        } ?>
         </div>
     </div>
     <button class="msk-optionsButton btn btn-dark position-fixed rounded-0 position-absolute top-50 end-0 translate-middle-y" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" aria-label="Ayarlar">
@@ -183,9 +189,7 @@
 
                 <input type="hidden" aria-label="Kanal" placeholder="Kanal" name="channel" value="<? echo $channel; ?>" class="form-control rounded-0">
                 <div id="sortable">
-<?php
-    foreach ($chanels as $cn => $cs) {
-?>
+                <?php foreach ($chanels as $cn => $cs) { ?>
                     <div class="input-group mt-1">
                         <input type="text" aria-label="Kanal adı" placeholder="Kanal adı" name="cn[]" value="<? echo $cn; ?>" class="form-control rounded-0">
                         <span class="input-group-text">
@@ -195,9 +199,7 @@
                         </span>
                         <input type="text" aria-label="Kanal adresi" placeholder="Kanal adresi" name="cs[]" value="<? echo $cs; ?>" class="form-control rounded-0">
                     </div>
-<?php
-    }
-?> 
+                <?php } ?>
                 </div>
                 <button type="submit" class="btn btn-outline-light w-100 rounded-0 mt-2 mb-5">Ayarları değiştir</button>
             </form>
