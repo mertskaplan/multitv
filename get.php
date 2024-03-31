@@ -57,7 +57,9 @@ function getVideoId($channelInfo){
 
     preg_match('/\"videoId\":\"(.+?)\"/', $html, $matches);
 
-    if(!isset($matches[1])) return json_encode([
+    $videoId = $matches[1];
+
+    if(!isset($videoId)) return json_encode([
         "status" => "error",
         "message" => "videoId not found",
         "data" => [
@@ -73,7 +75,7 @@ function getVideoId($channelInfo){
         "data" => [
             "channelId" => $channelInfo['channelId'],
             "username" => $channelInfo['username'],
-            "videoId" => $matches[1]
+            "videoId" => $videoId
         ]
     ]);
 };
@@ -82,7 +84,7 @@ if($_GET){
     if(isset($_GET['channel']) && !empty($_GET['channel']) && !is_null($_GET['channel'])){
         return;
     }
-    // GET Requset Security
+    // GET Request Security
     if(isset($_GET)){
         foreach($_GET as $key => $value){
             $_GET[$key] = htmlspecialchars($value);
@@ -115,13 +117,13 @@ if($_GET){
     }
 
     if(isset($_GET['channelId']) && !empty($_GET['channelId']) && !is_null($_GET['channelId'])){
-        echo getVideoId(["channelId" => $_GET['channelId']]);
+        return getVideoId(["channelId" => $_GET['channelId']]);
     }else if(isset($_GET['username']) && !empty($_GET['username']) && !is_null($_GET['username'])){
-        echo getVideoId(["username" => $_GET['username']]);
+        return getVideoId(["username" => $_GET['username']]);
     }else if(isset($_GET['channelId']) && !empty($_GET['channelId']) && !is_null($_GET['channelId']) && isset($_GET['username']) && !empty($_GET['username']) && !is_null($_GET['username'])){
-        echo getVideoId(["channelId" => $_GET['channelId'], "username" => $_GET['username']]);
+        return getVideoId(["channelId" => $_GET['channelId'], "username" => $_GET['username']]);
     }else{
-        echo json_encode([
+        return json_encode([
             "status" => "error",
             "message" => "channelId or username is not defined",
             "data" => [

@@ -6,45 +6,56 @@
     Licence: MIT Licence - https://github.com/mertskaplan/multitv/blob/main/LICENSE
     Source: https://github.com/mertskaplan/multitv
 */
-    include('get.php'); // Canlı yayın linki almak için get.php dosyasını kullanıyoruz. getVideoId() fonksiyonu ile YouTube kanalının canlı yayın linkini alıyoruz.
-
     $root = 'https://lab.mertskaplan.com/multitv/';
 
-    if (isset($_GET['cn']) && isset($_GET['cs'])) {
-        $chanels = array_combine($_GET['cn'], $_GET['cs']);
+    if (isset($_GET['cn']) && isset($_GET['cu']) && isset($_GET['ci'])) {
+        //$chanels = array_combine($_GET['cn'], $_GET['cs']);
+        // "$cn" => ["channelId" => "$ci", "username" => "$cu"]
+        $chanels = array();
+        foreach ($_GET['cn'] as $key => $cn) {
+            if(!empty($_GET['ci'][$key]) && !empty($_GET['cu'][$key]) && !empty($cn)){
+                $chanels[$cn] = ["channelId" => $_GET['ci'][$key], "username" => $_GET['cu'][$key]];
+            }else{
+                continue;
+            }
+        }
     } else {
         $chanels = array(
-            "NTV" => json_decode(getVideoId(["channelId" => "UC9TDTjbOjFB9jADmPhSAPsw", "username" => "NTV"]))->data->videoId,
-            //"CNN Türk" => json_decode(getVideoId(["channelId" => "UCV6zcRug6Hqp1UX_FdyUeBg", "username" => "cnnturk"]))->data->videoId, // Diğer uygulamalarda oynatma, video sahibi tarafından devre dışı bırakıldı
-            //"Habertürk" => json_decode(getVideoId(["channelId" => "UCn6dNfiRE_Xunu7iMyvD7AA", "username" => "haberturktv"]))->data->videoId, // Diğer uygulamalarda oynatma, video sahibi tarafından devre dışı bırakıldı
-            "Haber Global" => json_decode(getVideoId(["channelId" => "UCtc-a9ZUIg0_5HpsPxEO7Qg", "username" => "haberglobal"]))->data->videoId,
-            "TRT Haber" => json_decode(getVideoId(["channelId" => "UCBgTP2LOFVPmq15W-RH-WXA", "username" => "trthaber"]))->data->videoId,
-            //"A Haber" => json_decode(getVideoId(["channelId" => "UCKQhfw-lzz0uKnE1fY1PsAA", "username" => "ahaber"]))->data->videoId, // telif hakkı sebebiyle kaldırıldı
-            //"A Spor" => json_decode(getVideoId(["channelId" => "UCJElRTCNEmLemgirqvsW63Q", "username" => "ASpor"]))->data->videoId, // telif hakkı sebebiyle kaldırıldı
-            "TV 100" => json_decode(getVideoId(["channelId" => "UCndsdUW_oPLqpQJY9J8oIRg", "username" => "tv100"]))->data->videoId,
-            "Halk TV" => json_decode(getVideoId(["channelId" => "UCf_ResXZzE-o18zACUEmyvQ", "username" => "Halktvkanali"]))->data->videoId,
-            "24 TV" => json_decode(getVideoId(["channelId" => "UCN7VYCsI4Lx1-J4_BtjoWUA", "username" => "YirmidortTV"]))->data->videoId,
-            "TGRT Haber" => json_decode(getVideoId(["channelId" => "UCzgrZ-CndOoylh2_e72nSBQ", "username" => "tgrthaber"]))->data->videoId,
-            "KRT TV" => json_decode(getVideoId(["channelId" => "UCVKWwHoLwUMMa80cu_1uapA", "username" => "KRTCANLI"]))->data->videoId,
-            "Bi Haber" => json_decode(getVideoId(["channelId" => "UCT1QJrOPtGWYyWkXry8uT4w", "username" => "bihabercanli"]))->data->videoId,
-            "TELE 1" => json_decode(getVideoId(["channelId" => "UCoHnRpOS5rL62jTmSDO5Npw", "username" => "Tele1comtr"]))->data->videoId,
-            //"Bloomberg HT" => json_decode(getVideoId(["channelId" => "UCApLxl6oYQafxvykuoC2uxQ", "username" => "bloomberght"]))->data->videoId, // Diğer uygulamalarda oynatma, video sahibi tarafından devre dışı bırakıldı
-            "Ulusal Kanal" => json_decode(getVideoId(["channelId" => "UC6T0L26KS1NHMPbTwI1L4Eg", "username" => "ulusalkanalTV"]))->data->videoId,
-            "Artı TV" => json_decode(getVideoId(["channelId" => "UCxVicskgBc8OD66iLKc7Uaw", "username" => "ArtTv_Resmi"]))->data->videoId,
-            "TVNET" => json_decode(getVideoId(["channelId" => "UC8rh34IlJTN0lDZlTwzWzjg", "username" => "TVNET"]))->data->videoId,
-            //"Ülke TV" => json_decode(getVideoId(["channelId" => "UCi65FGbYYj-OzJm2luB_fNQ", "username" => "ulketv"]))->data->videoId, // Kanal taşınmış
-            //"Ülke TV Canlı Yayın" => json_decode(getVideoId(["channelId" => "UCT1GDGt-pNYZ4E0kanZHUKQ", "username" => "UlkeTVCanliYayin"]))->data->videoId, // Diğer uygulamalarda oynatma, video sahibi tarafından devre dışı bırakıldı
-            "Flash Haber TV" => json_decode(getVideoId(["channelId" => "UCNcjCb2RnA3eMMhTZSxZu3A", "username" => "FlashHaberTV"]))->data->videoId,
-            "Bengü Türk" => json_decode(getVideoId(["channelId" => "UChNgvcVZ_ggDdZ0zCcuuzFw", "username" => "tvbenguturk"]))->data->videoId,
-            //"Kanal D" => json_decode(getVideoId(["channelId" => "UCFoe1tg8MuHjRzmqXtV816A", "username" => "kanald"]))->data->videoId, // Canlı yayın yok!
-            //"Show TV" => json_decode(getVideoId(["channelId" => "UC9JMe_We017gYrRc7kZHgmg", "username" => "showtv"]))->data->videoId, // Diğer uygulamalarda oynatma, video sahibi tarafından devre dışı bırakıldı
-            "Fox TV" => json_decode(getVideoId(["channelId" => "UCJe13zu6MyE6Oueac41KAqg", "username" => "FOXTurkiye"]))->data->videoId,
-            "360 TV" => json_decode(getVideoId(["channelId" => "UCfqRQZ40fwEdaDWPuR7tvcw", "username" => "tv360"]))->data->videoId,
-            "TV5" => json_decode(getVideoId(["channelId" => "UCP-0oW3M7DpjmPDutckOjiA", "username" => "TV5televizyon"]))->data->videoId,
-            "Ekotürk TV" => json_decode(getVideoId(["channelId" => "UCAGVKxpAKwXMWdmcHbrvcwQ", "username" => "EKOTURKTV"]))->data->videoId,
-            //"Cadde TV" => json_decode(getVideoId(["channelId" => "UCPTF3NxWzcBD8rNnJuGQOSA", "username" => "Caddetvtr"]))->data->videoId, // Uzun süredir canlı yayın yok!
-            "beIN Sports Haber" => json_decode(getVideoId(["channelId" => "UCPe9vNjHF1kEExT5kHwc7aw", "username" => "beinsportsturkiye"]))->data->videoId,
-            "SZC TV" => json_decode(getVideoId(["channelId" => "UCOulx_rep5O4i9y6AyDqVvw", "username" => "Sozcutelevizyonu"]))->data->videoId,
+            "NTV" => ["channelId" => "UC9TDTjbOjFB9jADmPhSAPsw", "username" => "NTV"],
+            //"CNN Türk" => ["channelId" => "UCV6zcRug6Hqp1UX_FdyUeBg", "username" => "cnnturk"], // Diğer uygulamalarda oynatma, video sahibi tarafından devre dışı bırakıldı
+            //"Habertürk" => ["channelId" => "UCn6dNfiRE_Xunu7iMyvD7AA", "username" => "haberturktv"], // Diğer uygulamalarda oynatma, video sahibi tarafından devre dışı bırakıldı
+            "Haber Global" => ["channelId" => "UCtc-a9ZUIg0_5HpsPxEO7Qg", "username" => "haberglobal"],
+            "TRT Haber" => ["channelId" => "UCBgTP2LOFVPmq15W-RH-WXA", "username" => "trthaber"],
+            "A Haber" => ["channelId" => "UCKQhfw-lzz0uKnE1fY1PsAA", "username" => "ahaber"], // telif hakkı sebebiyle kaldırıldı
+            //"A Spor" => ["channelId" => "UCJElRTCNEmLemgirqvsW63Q", "username" => "ASpor"], // telif hakkı sebebiyle kaldırıldı
+            "TV 100" => ["channelId" => "UCndsdUW_oPLqpQJY9J8oIRg", "username" => "tv100"],
+            "Halk TV" => ["channelId" => "UCf_ResXZzE-o18zACUEmyvQ", "username" => "Halktvkanali"],
+            "24 TV" => ["channelId" => "UCN7VYCsI4Lx1-J4_BtjoWUA", "username" => "YirmidortTV"],
+            "TGRT Haber" => ["channelId" => "UCzgrZ-CndOoylh2_e72nSBQ", "username" => "tgrthaber"],
+            "KRT TV" => ["channelId" => "UCVKWwHoLwUMMa80cu_1uapA", "username" => "KRTCANLI"],
+            "Bi Haber" => ["channelId" => "UCT1QJrOPtGWYyWkXry8uT4w", "username" => "bihabercanli"],
+            "TELE 1" => ["channelId" => "UCoHnRpOS5rL62jTmSDO5Npw", "username" => "Tele1comtr"],
+            //"Bloomberg HT" => ["channelId" => "UCApLxl6oYQafxvykuoC2uxQ", "username" => "bloomberght"], // Diğer uygulamalarda oynatma, video sahibi tarafından devre dışı bırakıldı
+            "Ulusal Kanal" => ["channelId" => "UC6T0L26KS1NHMPbTwI1L4Eg", "username" => "ulusalkanalTV"],
+            "Artı TV" => ["channelId" => "UCxVicskgBc8OD66iLKc7Uaw", "username" => "ArtTv_Resmi"],
+            "TVNET" => ["channelId" => "UC8rh34IlJTN0lDZlTwzWzjg", "username" => "TVNET"],
+            //"Ülke TV" => ["channelId" => "UCi65FGbYYj-OzJm2luB_fNQ", "username" => "ulketv"], // Kanal taşınmış
+            "Ülke TV Canlı Yayın" => ["channelId" => "UCT1GDGt-pNYZ4E0kanZHUKQ", "username" => "UlkeTVCanliYayin"], // Diğer uygulamalarda oynatma, video sahibi tarafından devre dışı bırakıldı
+            "Flash Haber TV" => ["channelId" => "UCNcjCb2RnA3eMMhTZSxZu3A", "username" => "FlashHaberTV"],
+            "Bengü Türk" => ["channelId" => "UChNgvcVZ_ggDdZ0zCcuuzFw", "username" => "tvbenguturk"],
+            //"Kanal D" => ["channelId" => "UCFoe1tg8MuHjRzmqXtV816A", "username" => "kanald"], // Canlı yayın yok!
+            //"Show TV" => ["channelId" => "UC9JMe_We017gYrRc7kZHgmg", "username" => "showtv"], // Diğer uygulamalarda oynatma, video sahibi tarafından devre dışı bırakıldı
+            //"Fox TV" => ["channelId" => "UCJe13zu6MyE6Oueac41KAqg", "username" => "FOXTurkiye"], // Ülke kısıtlaması var (Türkiye için)
+            //"360 TV" => ["channelId" => "UCfqRQZ40fwEdaDWPuR7tvcw", "username" => "tv360"], // YouTube kanalı üzerinden canlı yayın yok!
+            "TV5" => ["channelId" => "UCP-0oW3M7DpjmPDutckOjiA", "username" => "TV5televizyon"],
+            "Ekotürk TV" => ["channelId" => "UCAGVKxpAKwXMWdmcHbrvcwQ", "username" => "EKOTURKTV"],
+            "Cadde TV" => ["channelId" => "UCPTF3NxWzcBD8rNnJuGQOSA", "username" => "Caddetvtr"], // Uzun süredir canlı yayın yok!
+            "beIN Sports Haber" => ["channelId" => "UCPe9vNjHF1kEExT5kHwc7aw", "username" => "beinsportsturkiye"],
+            "SZC TV" => ["channelId" => "UCOulx_rep5O4i9y6AyDqVvw", "username" => "Sozcutelevizyonu"],
+            "Fatih Altaylı" => ["channelId" => "UCdS7OE5qbJQc7AG4SwlTzKg", "username" => "fatihaltayli"],
+            "Cüneyt Özdemir" => ["channelId" => "UCkwHQ7DWv9aqEtvAOSO74dQ", "username" => "cuneytozdemir"],
+            "Nevşin Mengü" => ["channelId" => "UCrG27KDq7eW4YoEOYsalU9g", "username" => "nevshinmengu"],
+            "OzlemGursesTV" => ["channelId" => "UCojOP7HHZvM2nZz4Rwnd6-Q", "username" => "OzlemGursesTV"],
         );
 
         // Null değerleri temizle
@@ -65,11 +76,16 @@
 
     $chanels = array_slice($chanels, 0, $channel);
     $autoplay = (!isset($_GET['autoplay']) || $_GET['autoplay'] == 'on') ? 1 : 0;
+    $mute = 1;
 
     function changeChannel($x) {
         global $channel;
         if (!empty($_SERVER["QUERY_STRING"])) {
-            return str_replace("channel=$channel", "channel=$x", $_SERVER["QUERY_STRING"]);
+            if(strpos($_SERVER["QUERY_STRING"], "channel=$channel") !== false) {
+                return str_replace("channel=$channel", "channel=$x", $_SERVER["QUERY_STRING"]);
+            } else {
+                return "channel=$x";
+            }
         } else {
             return "channel=$x";
         }
@@ -134,15 +150,25 @@
             text-decoration: none;
             opacity: .75;
         }
+        iframe {
+            background: transparent;
+        }
+        .disabled {
+            pointer-events: none;
+        }
     </style>
 </head>
 <body class="text-bg-dark">
     <div class="msk-container">
         <div class="<? echo $rowClass; ?>">
-<?php foreach ($chanels as $chanel => $slug) {
+        <?php foreach ($chanels as $chanel => $slug) {
+            $channelId = $slug['channelId'];
+            $username = $slug['username'];
+            $channelName = $chanel;
+
         echo '
             <div class="col text-center p-0">
-                <iframe class="d-grid" width="100%" height="100%" src="https://www.youtube-nocookie.com/embed/'. $slug .'?autoplay='. $autoplay .'&mute=1" title="'. $chanel .'" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe class="d-grid" width="100%" height="100%" src="'. $root .'embed.php?channelId='. $channelId .'&username='.$username.'&channelName='.$channelName.'&autoplay='. $autoplay .'&mute='.$mute.'" title="'. $channelName .'" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
         ';
         } ?>
@@ -183,24 +209,39 @@
                     <input class="form-check-input" type="checkbox" role="switch" id="autoplay" name="autoplay"<? echo ($autoplay == 1) ? ' checked="checked"' : ''; ?>>
                     <label class="form-check-label" for="autoplay">Otomatik oynatma</label>
                 </div>
+                <input type="hidden" aria-label="Kanal" placeholder="Kanal" name="channel" value="<? echo $channel; ?>" class="form-control rounded-0">
 
                 <h5 class="mt-4">Kanalları değiştir</h5>
-                <span class="form-text">Kanal adresi bölümüne YouTube yayın adresi uzantısını girmelisiniz.</span>
+                <span class="form-text">Kanal adresi bölümüne YouTube Kanal IDsi veya kullanıcı adı girmelisiniz.</span>
 
-                <input type="hidden" aria-label="Kanal" placeholder="Kanal" name="channel" value="<? echo $channel; ?>" class="form-control rounded-0">
                 <div id="sortable">
-                <?php foreach ($chanels as $cn => $cs) { ?>
                     <div class="input-group mt-1">
-                        <input type="text" aria-label="Kanal adı" placeholder="Kanal adı" name="cn[]" value="<? echo $cn; ?>" class="form-control rounded-0">
+                        <input disabled type="text" aria-label="Kanal adı" placeholder="Kanal adı" value="Kanal İsmi" class="form-control rounded-0">
+                        <span class="input-group-text disabled">
+                            ||||
+                        </span>
+                        <input disabled type="text" aria-label="Kanal Username" placeholder="Kanal Username" value="Kanal Kullanıcı adı" class="form-control rounded-0">
+                        <input disabled type="text" aria-label="Kanal ID" placeholder="Kanal ID" value="Kanal ID" class="form-control rounded-0">
+                    </div>
+                    <?php
+                        foreach ($chanels as $key => $value) {
+                            $channelName = $key;
+                            $username = $value["username"];
+                            $channelId = $value["channelId"];
+                    ?>
+                    <div class="input-group mt-1">
+                        <input type="text" aria-label="Kanal adı" placeholder="Kanal adı" name="cn[]" value="<? echo $channelName; ?>" class="form-control rounded-0">
                         <span class="input-group-text">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M11.5 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L11 2.707V14.5a.5.5 0 0 0 .5.5zm-7-14a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L4 13.293V1.5a.5.5 0 0 1 .5-.5z"/>
                             </svg>
                         </span>
-                        <input type="text" aria-label="Kanal adresi" placeholder="Kanal adresi" name="cs[]" value="<? echo $cs; ?>" class="form-control rounded-0">
+                        <input type="text" aria-label="Kanal Username" placeholder="Kanal Username" name="cu[]" value="<? echo $username; ?>" class="form-control rounded-0">
+                        <input type="text" aria-label="Kanal ID" placeholder="Kanal ID" name="ci[]" value="<? echo $channelId; ?>" class="form-control rounded-0">
                     </div>
                 <?php } ?>
                 </div>
+                <span id="add" class="btn btn-outline-light w-100 rounded-0 mt-2 mb-3">Yeni kanal ekle</span>
                 <button type="submit" class="btn btn-outline-light w-100 rounded-0 mt-2 mb-5">Ayarları değiştir</button>
             </form>
             <div class="mt-2 py-2 text-center position-absolute bottom-0 start-50 translate-middle-x text-bg-dark" style="font-size:.78em; width: 368px;">
@@ -249,6 +290,10 @@
         setInterval(function(){ check_fullscreen();}, 1000);
 
         if ('serviceWorker' in navigator) {navigator.serviceWorker.register('assets/js/sw.js').then(function() {}, function() {});}
+
+        $("#add").click(function (e) {
+            $("#sortable").append('<div class="input-group mt-1"><input type="text" aria-label="Kanal adı" placeholder="Kanal adı" name="cn[]" value="" class="form-control rounded-0"><span class="input-group-text"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M11.5 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L11 2.707V14.5a.5.5 0 0 0 .5.5zm-7-14a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L4 13.293V1.5a.5.5 0 0 1 .5-.5z"/></svg></span><input type="text" aria-label="Kanal Username" placeholder="Kanal Username" name="cu[]" value="" class="form-control rounded-0"><input type="text" aria-label="Kanal ID" placeholder="Kanal ID" name="ci[]" value="" class="form-control rounded-0"></div>');
+        });
     </script>
 </body>
 </html>
