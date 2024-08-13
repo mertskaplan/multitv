@@ -1,0 +1,7 @@
+RewriteEngine On
+
+Options +FollowSymlinks
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule ^([^/]*)/?([^/]*)$ ?lang=$1&channel=$2&%{QUERY_STRING} [L]
