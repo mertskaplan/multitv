@@ -1,106 +1,181 @@
 <?php
 /*
     Name: Multi TV
-    Version: 1.5
+    Version: 2.0
     Author: Mert S. Kaplan, mail@mertskaplan.com
     Licence: MIT Licence - https://github.com/mertskaplan/multitv/blob/main/LICENSE
     Source: https://github.com/mertskaplan/multitv
 */
 
-    $root = 'https://lab.mertskaplan.com/multitv/';
+$root = 'https://lab.mertskaplan.com/multitv/';
 
-    if (isset($_GET['cn']) && isset($_GET['cs'])) {
-        $chanels = array_combine($_GET['cn'], $_GET['cs']);
-    } else {  
-        $chanels = array(
-            "NTV" => "XEJM4Hcgd3M",
-//          "CNN Türk" => "X_EWYemclKA", // Diğer uygulamalarda oynatma, video sahibi tarafından devre dışı bırakıldı
-            "Habertürk" => "SqHIO2zhxbA",
-            "Haber Global" => "UVPejgEw21c",
-            "TRT Haber" => "Rc5qrxlJZzc",
-//          "A Haber" => "g4QA9Sh_g_8", // telif hakki sebebiyle kaldirildi
-            "TV 100" => "sd94keSra6A",
-            "Halk TV" => "_FUlFVJo77I",
-            "24 TV" => "V5mBTSql74Q",
-            "TGRT Haber" => "8YPC2IV7ve0",
-            "KRT TV" => "3QDiWPZ2D_k",
-            "TELE 1" => "mRK3wXGdsLk",
-            "Bloomberg HT" => "hHSmBJk6w0c",
-            "Ulusal Kanal" => "SdCJquYL-CQ",
-            "Artı TV" => "xpoetRCJKqY",
-            "TVNET" => "SR396EBvGUk",
-            "Ülke TV" => "dAknS8uSPW8",
-            "Flash Haber TV" => "oGHfM6AC7QU",
-            "Bengü Türk" => "Lx_fVB6FQ5Y",
-            "Kanal D" => "ubWBmjt4x7U",
-            "Show TV" => "eVVlKAUlSNQ",
-            "Fox TV" => "6W1ePcaAUFY",
-            "360 TV" => "bOlsH34--PU",
-            "TV5" => "-zNkYBJ0wKI",
-            "Ekotürk TV" => "zJYTpkv7aAQ",
-            "Cadde TV" => "BSM8MIH7yAE",
-            "beIN Sports Haber" => "MZ5D6NK5Qqo"
-        );
-    }
+if (isset($_GET['lang']) && $_GET['lang'] == 'en') {
+    $lang = 'en';
+} elseif (isset($_GET['lang']) && $_GET['lang'] == 'fr') {
+    $lang = 'fr';
+} elseif (isset($_GET['lang']) && $_GET['lang'] == 'es') {
+    $lang = 'es';
+} else {
+    $browserLang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+    $acceptLang = ['tr', 'en', 'fr', 'es']; 
+    $lang = (in_array($browserLang, $acceptLang)) ? $browserLang : 'tr';
+}
 
-    $channel = (isset($_GET['channel'])) ? (int)$_GET['channel'] : 9;
+require_once 'i18n/'. $lang .'.php';
 
-    if ($channel <= 4) {
-        $rowClass = 'row row-cols-1 row-cols-sm-2 justify-content-center align-items-center m-0';
-    } elseif ($channel <= 9) {
-        $rowClass = 'row row-cols-1 row-cols-sm-2 row-cols-md-3 justify-content-center align-items-center m-0';
-    } elseif ($channel <= 16) {
-        $rowClass = 'row row-cols-1 row-cols-sm-2 row-cols-xl-4 justify-content-center align-items-center m-0';
-    } else {
-        $rowClass = 'row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5 justify-content-center align-items-center m-0';
-    }
+if (isset($_GET['cs'])) { // Interim compatibility code for v1.5 release
+    $_GET['vs'] = $_GET['cs'];
+}
 
-    $chanels = array_slice($chanels, 0, $channel);
-    $autoplay = (!isset($_GET['autoplay']) || $_GET['autoplay'] == 'on') ? 1 : 0;
+if (isset($_GET['cn']) && isset($_GET['vs'])) {
+    $channels = array_filter(array_combine($_GET['cn'], $_GET['vs']));
+    $channel = count($channels);
+} else {  
+    $channels = array(
+        "NTV" => "-RORLrBwJD0",
+//      "CNN Türk" => "X_EWYemclKA", // Diğer uygulamalarda oynatma, video sahibi tarafından devre dışı bırakıldı
+        "Habertürk" => "8xSMAv3w1Sk", // Diğer uygulamalarda oynatma, video sahibi tarafından devre dışı bırakıldı
+        "Haber Global" => "6BX-NUzBSp8",
+        "TRT Haber" => "og4Bl9zD6l8",
+//      "A Haber" => "g4QA9Sh_g_8", // telif hakki sebebiyle kaldirildi
+        "Halk TV" => "-HJwrahoMsQ",
+        "Sözcü TV" => "ztmY_cCtUl0",
+        "TELE 1" => "cKRg0a8yArE",
+        "TV 100" => "P5BOJKmWaaI",
+        "EKOL TV" => "zHr9jLECE6Q",
+//       "Show TV" => "ouuCjEjyKVI",
+        "KRT TV" => "1zzKaji_Egw",
+        "TGRT Haber" => "2-PxQVVcr6A",
+        "Ulusal Kanal" => "i204rhujm0o",
+//       "Elips TV" => "GpOJj53sLCo",
+        "Bloomberg HT" => "hHSmBJk6w0c", // Diğer uygulamalarda oynatma, video sahibi tarafından devre dışı bırakıldı
+        "TVNET" => "KdhO7SV9tF8",
+        "Ülke TV" => "YbBtCFThQQE",
+        "Bengü Türk" => "GcuWWVOZEi8",
+        "24 TV" => "n19HNr5dRHQ",
+//      "TV5" => "aLiAdO8C2Mo",
+//      "Kanal 5" => "wPjNLUvSmGA",
+//      "360 TV" => "z-P0IXjzHQ",
+        "beIN Sports Haber" => "OypUpUTYAHI",
+        "Ekotürk TV" => "VP_h4FNHWlY",
+        "Artı TV" => "Fr5mpbeYpFE",
+        // "Flash Haber TV" => "NrI9To8g9EI",
+        // "Fatih Altaylı" => "ZgOw5f_J0mY",
+        // "Cüneyt Özdemir" => "FsT3k6jm-bs",
+        // "Nevşin Mengü" => "Re5MzQntuYs",
+        // "Kanal D" => "FnCjX-2Tt0g",
+        // "Fox TV" => "UF9KvTnZdic",
+        // "Cadde TV" => "pIU0HC2OveA",
+    );
+}
+$channel = (isset($_GET['channel']) && (int)$_GET['channel'] > 0) ? (int)$_GET['channel'] : 6;
+if ($channel > count($channels)) {
+    $channel = count($channels);
+}
 
-    function changeChannel($x) {
-        global $channel;
-        if (!empty($_SERVER["QUERY_STRING"])) {
-            return str_replace("channel=$channel", "channel=$x", $_SERVER["QUERY_STRING"]);
+$grid[1] = [12];
+$grid[2] = [6,6];
+$grid[3] = [6,6,6];
+$grid[4] = [6,6,6,6];
+$grid[5] = [8,[4,2],12,12,4,4];
+$grid[6] = [8,[4,2],12,12,4,4,4];
+$grid[7] = [4,4,4,4,4,4,4];
+$grid[8] = [4,4,4,4,4,4,4,4];
+$grid[9] = [4,4,4,4,4,4,4,4,4];
+$grid[10] = [6,6,3,3,3,3,3,3,3,3];
+$grid[11] = [6,[6,4],6,6,6,6,3,3,3,3,3,3];
+$grid[12] = [6,[6,4],6,6,6,6,3,3,3,3,3,3,3];
+$grid[13] = [6,[6,4],6,6,6,6,3,3,3,3,3,3,3,3];
+$grid[14] = [3,3,3,3,3,3,3,3,3,3,3,3,3,3];
+$grid[15] = [3,3,3,3,3,3,3,3,3,3,3,3,3,3,3];
+$grid[16] = [3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3];
+$grid[17] = [4,4,4,3,3,3,3,3,3,3,3,2,2,2,2,2,2];
+$grid[18] = [4,4,4,4,4,4,2,2,2,2,2,2,2,2,2,2,2,2];
+$grid[19] = [4,4,4,4,4,[4,4],6,6,6,6,2,2,2,2,2,2,2,2,2,2];
+$grid[20] = [4,4,4,4,4,[4,4],6,6,6,6,2,2,2,2,2,2,2,2,2,2,2];
+$grid[21] = [4,4,4,4,4,[4,4],6,6,6,6,2,2,2,2,2,2,2,2,2,2,2,2];
+$grid[22] = [4,4,[4,4],6,6,6,6,4,4,[4,4],6,6,6,6,2,2,2,2,2,2,2,2,2,2];
+$grid[23] = [4,4,[4,4],6,6,6,6,4,4,[4,4],6,6,6,6,2,2,2,2,2,2,2,2,2,2,2];
+$grid[24] = [4,4,[4,4],6,6,6,6,4,4,[4,4],6,6,6,6,2,2,2,2,2,2,2,2,2,2,2,2];
+$grid[25] = [[12,5],'c','c','c','c','c',[12,5],'c','c','c','c','c',[12,5],'c','c','c','c','c',[12,5],'c','c','c','c','c',[12,5],'c','c','c','c','c'];
+
+$channels = array_slice($channels, 0, $channel);
+$selectedChannels = explode("cn", $_SERVER["QUERY_STRING"],2)[1];
+$selectedChannels = (is_null($selectedChannels)) ? '' : '?cn'. $selectedChannels;
+$autoplay = (isset($_GET['autoplay']) && $_GET['autoplay'] == 'off') ? 0 : 1;
+
+function translate($text, $variable = false) {
+    global $i18n;
+    if ($variable) {
+        if (is_array($variable)) {
+            $x = 1;
+            foreach ($variable as $var) {
+                if ($x === 1) {
+                    $return = str_replace('%text%', $var, $i18n[$text]);
+                } else {
+                    $return = str_replace('%text'.$x.'%', $var, $return);
+                }
+                $x++;
+            }
         } else {
-            return "channel=$x";
+            $return = str_replace('%text%', $variable, $i18n[$text]);
         }
+    } else {
+        $return = $i18n[$text];
     }
+    return $return;
+}
+
+$title = (isset($_GET['channel']) && (int)$_GET['channel'] > 0) ? translate('channel-numbered-title', $channel) : $i18n['title'];
+$description = (isset($_GET['channel']) && (int)$_GET['channel'] > 0) ? translate('channel-numbered-description', $channel) : $i18n['description'];
+
 ?>
 <!doctype html>
-<html lang="tr" prefix="og: https://ogp.me/ns#">
+<html lang="<?php echo $lang; ?>" prefix="og: https://ogp.me/ns#">
 <head>
     <meta charset="utf-8">
-    <meta name="description" content="Aynı anda birden fazla haber kanalını, televizyonu ya da YouTube kanalını izleyebileceğiniz bir çoklu ekran uygulaması.">
-    <meta name="keywords" content="Multi TV, multi screen, çoklu ekran, çoklu haber kanalı, haber kanalları, YouTube, aynı anda">
+    <title><?php echo $title; ?></title>
+    <meta name="robots" content="index, follow">
+    <meta name="description" content="<?php echo $description; ?>">
+    <meta name="keywords" content="<?php echo $i18n['keywords']; ?>">
     <meta name="author" content="Mert S. Kaplan, mail@mertskaplan.com">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#212529">
-    <meta property="og:title" content="Multi TV - Haber kanallarını aynı anda izle" />
-    <meta property="og:description" content="Aynı anda birden fazla haber kanalını, televizyonu ya da YouTube kanalını izleyebileceğiniz bir çoklu ekran uygulaması." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="<? echo $root; ?>" />
-    <meta property="og:image" content="<? echo $root; ?>assets/img/screenshots/screenshot-1280.jpg" />
-    <meta property="og:locale" content="tr_TR" />
+    <meta property="og:title" content="<?php echo $title; ?>">
+    <meta property="og:description" content="<?php echo $description; ?>">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<?php echo $root; ?>">
+    <meta property="og:image" content="<?php echo $root; ?>assets/img/screenshots/screenshot-1280.jpg" />
+    <meta property="og:locale" content="<?php echo $i18n['locale']; ?>">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:creator" content="@mertskaplan">
-    <meta name="twitter:title" content="Multi TV - Haber kanallarını aynı anda izle">
-    <meta name="twitter:description" content="Aynı anda birden fazla haber kanalını, televizyonu ya da YouTube kanalını izleyebileceğiniz bir çoklu ekran uygulaması.">
-    <meta name="twitter:image" content="<? echo $root; ?>assets/img/screenshots/screenshot-1280.jpg">
-    <title>Multi TV - Haber kanallarını aynı anda izle</title>
-    <link rel="canonical" href="<? echo $root; ?>">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="manifest" href="<? echo $root; ?>manifest.webmanifest">
-    <link rel="apple-touch-icon" href="<? echo $root; ?>assets/img/logo/multitv-192.png">
+    <meta name="twitter:title" content="<?php echo $title; ?>">
+    <meta name="twitter:description" content="<?php echo $description; ?>">
+    <meta name="twitter:image" content="<?php echo $root; ?>assets/img/screenshots/screenshot-1280.jpg">
+    <meta name="apple-mobile-web-app-title" content="Multi TV">
+    <link rel="canonical" href="<?php echo $root . $lang; ?>">
+    <link rel="alternate" hreflang="x-default" href="<?php echo $root; ?>tr">
+    <link rel="alternate" hreflang="tr" href="<?php echo $root; ?>tr">
+    <link rel="alternate" hreflang="en" href="<?php echo $root; ?>en">
+    <link rel="alternate" hreflang="fr" href="<?php echo $root; ?>fr">
+    <link rel="alternate" hreflang="es" href="<?php echo $root; ?>es">
+    <link href="<?php echo $root; ?>assets/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="<?php echo $root; ?>favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="<?php echo $root; ?>assets/img/logo/multitv-16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="<?php echo $root; ?>assets/img/logo/multitv-32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="<?php echo $root; ?>assets/img/logo/multitv-48.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="<?php echo $root; ?>assets/img/logo/multitv-180.png">
+    <link rel="apple-touch-startup-image" href="<?php echo $root; ?>assets/img/logo/multitv-maskable-725.png">
+    <link rel="mask-icon" href="<?php echo $root; ?>assets/img/logo/logo.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <link rel="manifest" href="<?php echo $root; ?>manifest.webmanifest">
     <style>
         .msk-container {
-            aspect-ratio: 16/9;
             max-height: 100vh;
             max-width: 100vw;
             margin: 0 auto;
         }
-        .row div, iframe {
+        .msk-aspectRatio {
             aspect-ratio: 16/9;
         }
         .msk-optionsButton:hover span {
@@ -126,90 +201,124 @@
             text-decoration: none;
             opacity: .75;
         }
+        .msk-authorLicense {
+            font-size:.78em;
+            max-width: calc(100% - 32px);
+            width: 367px;
+        }
+        @-webkit-keyframes blinker {
+            from {background-color: #f00;}
+            to {background-color: #212529;}
+        }
+        .msk-optionsButton {
+            text-decoration: blink;
+            -webkit-animation-name: blinker;
+            -webkit-animation-duration: 0.6s;
+            -webkit-animation-iteration-count: 10;
+            -webkit-animation-timing-function: ease-in-out;
+            -webkit-animation-direction: alternate;
+        }
     </style>
 </head>
 <body class="text-bg-dark">
-    <div class="msk-container">
-        <div class="<? echo $rowClass; ?>">
+    <div class="msk-container msk-aspectRatio">
+        <div class="row msk-aspectRatio justify-content-center align-items-center m-0">
 <?php
-    foreach ($chanels as $chanel => $slug) {
+    $x = $y = $z = 0;
+    foreach ($channels as $channelName => $slug) {
+        if (is_array($grid[$channel][$x])) {
+            $y = $x;
+            $z = $grid[$channel][$x][1];
+            echo '
+                <div class="row col-12 col-sm-'. $grid[$channel][$x][0] .' p-0 m-0">
+            ';
+            $x++;
+        }
+        $col = ($grid[$channel][$x] == 'c') ? 'col' : 'col-12 col-sm-'. $grid[$channel][$x];
         echo '
-            <div class="col text-center p-0">
-                <iframe class="d-grid" width="100%" height="100%" src="https://www.youtube-nocookie.com/embed/'. $slug .'?autoplay='. $autoplay .'&mute=1" title="'. $chanel .'" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <div class="'. $col .' msk-aspectRatio text-center p-0">
+                <iframe class="d-grid msk-aspectRatio" width="100%" height="100%" src="https://www.youtube-nocookie.com/embed/'. $slug .'?autoplay='. $autoplay .'&mute=1" title="'. $channelName .'" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" loading="lazy" allowfullscreen></iframe>
             </div>
         ';
+        if ($x !== 0 && $z + $y == $x) {
+            echo '
+                </div>
+            ';
+        }
+        $x++;
     }
 ?>
         </div>
     </div>
-    <button class="msk-optionsButton btn btn-dark position-fixed rounded-0 position-absolute top-50 end-0 translate-middle-y" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" aria-label="Ayarlar">
+    <button class="msk-optionsButton btn btn-dark position-fixed rounded-0 position-absolute top-50 end-0 translate-middle-y" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" aria-label="<?php echo $i18n['settings']; ?>">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
             <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/>
         </svg>
-        <span class="d-none">Ayarlar</span>
+        <span class="d-none"><?php echo $i18n['settings']; ?></span>
     </button>
     <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" data-bs-scroll="true" >
         <div class="offcanvas-header">
-            <h4 class="offcanvas-title" id="offcanvasRightLabel">
+            <h1 class="offcanvas-title h4" id="offcanvasRightLabel">
                 <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="22" height="36" viewBox="0 0 512 512" preserveAspectRatio="xMidYMid meet" style="vertical-align: top;">
                     <g transform="translate(0,512) scale(0.100000,-0.100000)" fill="#fff"><path d="M1954 5101 c-69 -31 -111 -106 -101 -180 3 -23 78 -167 201 -385 108 -192 196 -352 196 -357 0 -4 -282 -10 -627 -11 -618 -3 -629 -3 -693 -25 -210 -72 -376 -248 -437 -463 -17 -62 -18 -141 -18 -1590 0 -1701 -5 -1573 70 -1725 85 -173 260 -310 450 -350 104 -22 3025 -22 3129 0 241 51 437 240 503 485 17 61 18 166 18 1590 0 1449 -1 1528 -18 1590 -66 231 -248 413 -473 470 -73 19 -111 20 -681 20 -343 0 -603 4 -603 9 0 5 88 166 197 357 219 389 224 402 181 484 -55 107 -185 132 -269 52 -25 -25 -101 -150 -224 -369 -103 -183 -191 -333 -195 -333 -4 0 -92 150 -195 333 -103 182 -201 347 -218 365 -51 52 -122 65 -193 33z m2139 -1301 c75 -28 130 -79 167 -153 l30 -62 -2 -1510 c-3 -1458 -4 -1511 -22 -1545 -38 -71 -77 -109 -144 -142 l-67 -33 -1495 0 -1495 0 -67 33 c-67 33 -106 71 -144 142 -18 34 -19 87 -22 1545 l-2 1510 30 62 c36 73 92 125 164 152 50 19 88 20 1533 20 1460 1 1483 1 1536 -19z"/>
                     <path d="M2500 2505 c-152 -56 -990 -432 -1013 -454 -41 -38 -57 -73 -57 -128 0 -62 33 -121 85 -151 72 -42 113 -31 430 107 154 68 315 138 358 157 l77 33 0 -122 c0 -141 10 -185 50 -231 40 -45 79 -60 143 -54 46 5 426 164 982 412 98 44 135 92 135 176 0 113 -105 198 -208 170 -22 -5 -194 -77 -383 -160 -189 -82 -346 -150 -350 -150 -4 0 -9 62 -11 138 -3 122 -6 141 -26 177 -48 80 -130 111 -212 80z"/></g>
                 </svg>
-                <span>Multi TV | Ayarlar</span></h4>
+                <span>Multi TV | <?php echo $i18n['settings']; ?></span>
+            </h1>
             <div>
-                <button type="button" class="btn-fullsc btn-close-white" data-bs-dismiss="offcanvas" onclick="toggle_fullscreen();" aria-label="Tam ekran"></button>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Kapat"></button>
+                <button type="button" class="btn-fullsc btn-close-white" data-bs-dismiss="offcanvas" onclick="toggle_fullscreen();" aria-label="<?php echo $i18n['fullscreen']; ?>"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="<?php echo $i18n['close']; ?>"></button>
             </div>
         </div>
         <div class="offcanvas-body">
-            <h5>Kanal sayısı</h5>
-            <div class="btn-group w-100" role="group" aria-label="Ayarlar">
-                <a type="button" class="btn btn-outline-light rounded-0<? echo ($channel == 4)  ? ' active' : ''; ?>" href="?<? echo changeChannel(4); ?>">4 kanal</a>
-                <a type="button" class="btn btn-outline-light rounded-0<? echo ($channel == 9)  ? ' active' : ''; ?>" href="?<? echo changeChannel(9); ?>">9 kanal</a>
-                <a type="button" class="btn btn-outline-light rounded-0<? echo ($channel == 16) ? ' active' : ''; ?>" href="?<? echo changeChannel(16); ?>">16 kanal</a>
-                <a type="button" class="btn btn-outline-light rounded-0<? echo ($channel == 25) ? ' active' : ''; ?>" href="?<? echo changeChannel(25); ?>">25 kanal</a>
+            <h2 class="h5"><?php echo $i18n['language']; ?></h2>
+            <p><a href="<?php echo $root; ?>tr" class="text-white text-decoration-none">Türkçe</a> | <a href="<?php echo $root; ?>en" class="text-white text-decoration-none">English</a> | <a href="<?php echo $root; ?>fr" class="text-white text-decoration-none">Français</a> | <a href="<?php echo $root; ?>es" class="text-white text-decoration-none">Español</a></p>
+            <h2 class="h5"><?php echo $i18n['number-of-channels']; ?></h2>
+            <div class="btn-group w-100" role="group" aria-label="<?php echo $i18n['settings']; ?>">
+                <a type="button" class="btn btn-outline-light rounded-0<?php echo ($channel == 4)  ? ' active' : ''; ?>" href="<?php echo $root . $lang . '/4'.  $selectedChannels; ?>" rel="alternate">4</a>
+                <a type="button" class="btn btn-outline-light rounded-0<?php echo ($channel == 6)  ? ' active' : ''; ?>" href="<?php echo $root . $lang . '/6'.  $selectedChannels; ?>" rel="alternate">6</a>
+                <a type="button" class="btn btn-outline-light rounded-0<?php echo ($channel == 9)  ? ' active' : ''; ?>" href="<?php echo $root . $lang . '/9'.  $selectedChannels; ?>" rel="alternate">9</a>
+                <a type="button" class="btn btn-outline-light rounded-0<?php echo ($channel == 10) ? ' active' : ''; ?>" href="<?php echo $root . $lang . '/10'. $selectedChannels; ?>" rel="alternate">10</a>
+                <a type="button" class="btn btn-outline-light rounded-0<?php echo ($channel == 13) ? ' active' : ''; ?>" href="<?php echo $root . $lang . '/13'. $selectedChannels; ?>" rel="alternate">13</a>
+                <a type="button" class="btn btn-outline-light rounded-0<?php echo ($channel == 16) ? ' active' : ''; ?>" href="<?php echo $root . $lang . '/16'. $selectedChannels; ?>" rel="alternate">16</a>
+                <a type="button" class="btn btn-outline-light rounded-0<?php echo ($channel == 18) ? ' active' : ''; ?>" href="<?php echo $root . $lang . '/18'. $selectedChannels; ?>" rel="alternate">18</a>
+                <a type="button" class="btn btn-outline-light rounded-0<?php echo ($channel == 21) ? ' active' : ''; ?>" href="<?php echo $root . $lang . '/21'. $selectedChannels; ?>" rel="alternate">21</a>
+                <a type="button" class="btn btn-outline-light rounded-0<?php echo ($channel == 25) ? ' active' : ''; ?>" href="<?php echo $root . $lang . '/25'. $selectedChannels; ?>" rel="alternate">25</a>
             </div>
 
             <form methot="get" action="">
-                <h5 class="mt-4">Başlangıç ayarı</h5>
-                <div class="form-check form-switch">
-                    <? echo ($autoplay == 1) ? '<input type="hidden" value="off" name="autoplay">' : ''; ?>
-                    <input class="form-check-input" type="checkbox" role="switch" id="autoplay" name="autoplay"<? echo ($autoplay == 1) ? ' checked="checked"' : ''; ?>>
-                    <label class="form-check-label" for="autoplay">Otomatik oynatma</label>
-                </div>
-
-                <h5 class="mt-4">Kanalları değiştir</h5>
-                <span class="form-text">Kanal adresi bölümüne YouTube yayın adresi uzantısını girmelisiniz.</span>
-
-                <input type="hidden" aria-label="Kanal" placeholder="Kanal" name="channel" value="<? echo $channel; ?>" class="form-control rounded-0">
+                <h2 class="mt-4 h5"><?php echo $i18n['change-channels']; ?></h2>
+                <span class="form-text"><?php echo $i18n['change-channels-text']; ?></span>
                 <div id="sortable">
 <?php
-    foreach ($chanels as $cn => $cs) {
+    foreach ($channels as $cn => $vs) { // channel name => video-slug
 ?>
                     <div class="input-group mt-1">
-                        <input type="text" aria-label="Kanal adı" placeholder="Kanal adı" name="cn[]" value="<? echo $cn; ?>" class="form-control rounded-0">
+                        <input type="text" aria-label="<?php echo $i18n['channel-name']; ?>" placeholder="<?php echo $i18n['channel-name']; ?>" name="cn[]" value="<?php echo $cn; ?>" class="form-control rounded-0">
                         <span class="input-group-text">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M11.5 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L11 2.707V14.5a.5.5 0 0 0 .5.5zm-7-14a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L4 13.293V1.5a.5.5 0 0 1 .5-.5z"/>
                             </svg>
                         </span>
-                        <input type="text" aria-label="Kanal adresi" placeholder="Kanal adresi" name="cs[]" value="<? echo $cs; ?>" class="form-control rounded-0">
+                        <input type="text" aria-label="<?php echo $i18n['video-slug']; ?>" placeholder="<?php echo $i18n['video-slug']; ?>" name="vs[]" value="<?php echo $vs; ?>" class="form-control rounded-0">
                     </div>
 <?php
     }
 ?> 
                 </div>
-                <button type="submit" class="btn btn-outline-light w-100 rounded-0 mt-2 mb-5">Ayarları değiştir</button>
+                <span id="add" class="btn btn-outline-light w-100 rounded-0 mt-2 mb-3"><?php echo $i18n['add-new-channel']; ?></span>
+                <button type="submit" class="btn btn-outline-light w-100 rounded-0 mt-2 mb-5"><?php echo $i18n['save-settings']; ?></button>
             </form>
-            <div class="mt-2 py-2 text-center position-absolute bottom-0 start-50 translate-middle-x text-bg-dark" style="font-size:.78em; width: 368px;">
-                <a href="https://mertskaplan.com" target="_blank" rel="author external" class="link-light text-decoration-none">Mert S. Kaplan</a> tarafından <a href="https://github.com/mertskaplan/multitv/blob/main/LICENSE" rel="license external nofollow noopener" target="_blank" class="link-light text-decoration-none">MIT Lisansı<a> ile geliştirildi | 
+            <div class="mt-2 py-2 text-center position-fixed bottom-0 text-bg-dark msk-authorLicense">
+                <?php echo $i18n['author-license']; ?> | 
                 <a href="https://github.com/mertskaplan/multitv" rel="external noopener" target="_blank" class="link-light text-decoration-none">GitHub</a>
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script> -->
+    <script src="<?php echo $root; ?>assets/js/combined.min.js"></script>
     <script>
         $( function() {
             $( "#sortable" ).sortable();
@@ -246,7 +355,11 @@
         }
         setInterval(function(){ check_fullscreen();}, 1000);
 
-        if ('serviceWorker' in navigator) {navigator.serviceWorker.register('assets/js/sw.js').then(function() {}, function() {});}
+        if ('serviceWorker' in navigator) {navigator.serviceWorker.register('<?php echo $root; ?>assets/js/sw.js').then(function() {}, function() {});}
+
+        $("#add").click(function (e) {
+            $("#sortable").append('<div class="input-group mt-1"><input type="text" aria-label="<?php echo $i18n['channel-name']; ?>" placeholder="<?php echo $i18n['channel-name']; ?>" name="cn[]" value="" class="form-control rounded-0"><span class="input-group-text"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M11.5 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L11 2.707V14.5a.5.5 0 0 0 .5.5zm-7-14a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L4 13.293V1.5a.5.5 0 0 1 .5-.5z"/></svg></span><input type="text" aria-label="<?php echo $i18n['video-slug']; ?>" placeholder="<?php echo $i18n['video-slug']; ?>" name="vs[]" value="" class="form-control rounded-0"></div>');
+        });
     </script>
 </body>
 </html>
