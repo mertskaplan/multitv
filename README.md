@@ -16,7 +16,7 @@
  - Televizyon kanallarının YouTube bağlantıları zaman içinde değişebiliyor. Uygulamanın canlı versiyonunda zaman zaman yayın adresleri kontrol edilerek güncelleniyor. Ancak yazılım kaynak kodunda bu değişiklikler başka bir değişiklik yapılmadığı sürece yapılmayacak. (*[mertskaplan.com/iletisim](https://mertskaplan.com/iletisim) adresindeki iletişim kanalları üzerinden bildirebilirsiniz.*)
 
 ## Release notes / Sürüm notları
-### v2.0 (2024.08.13)
+### [v2.0](https://github.com/mertskaplan/multitv/releases/tag/v2.0) (2024.08.13)
 
 **EN**
 - A Spanish language option has been added.
