@@ -9,17 +9,9 @@
 
 $root = 'https://lab.mertskaplan.com/multitv/';
 
-if (isset($_GET['lang']) && $_GET['lang'] == 'en') {
-    $lang = 'en';
-} elseif (isset($_GET['lang']) && $_GET['lang'] == 'fr') {
-    $lang = 'fr';
-} elseif (isset($_GET['lang']) && $_GET['lang'] == 'es') {
-    $lang = 'es';
-} else {
-    $browserLang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
-    $acceptLang = ['tr', 'en', 'fr', 'es']; 
-    $lang = (in_array($browserLang, $acceptLang)) ? $browserLang : 'tr';
-}
+$acceptLang = ['tr', 'en', 'fr', 'es']; 
+$lang = $_GET['lang'] ?? substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+$lang = in_array($lang, $acceptLang) ? $lang : 'tr';
 
 require_once 'i18n/'. $lang .'.php';
 
